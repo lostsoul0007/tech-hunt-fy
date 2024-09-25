@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hidden-code</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+
+        .clue-container {
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #40ff59;
+            text-shadow: 0 0 10px rgba(64, 255, 93, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #bdbdbd;
+            line-height: 1.6;
+        }
+
+        .hidden-code {
+            color: transparent;
+            background-color: transparent;
+            display: inline-block;
+            cursor: pointer;
+            transition: color 0.5s, background-color 0.5s;
+        }
+
+        .hidden-code:hover {
+            color: #fff;
+            background-color: #40ff63;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 64, 129, 0.2);
+            }
+
+            to {
+                text-shadow: 0 0 20px rgba(109, 255, 64, 0.8);
+            }
+        }
+
+        .click-to-reveal {
+            color: transparent;
+            border-bottom: 2px solid #40ff46;
+            cursor: pointer;
+        }
+
+        .click-to-reveal.active {
+            color: #59ff40;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 50px;
+            color: #999;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        footer a {
+            color: #40ff5d;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-shadow: 0 0 5px rgba(64, 255, 99, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <br><br><br>
+    <div class="clue-container">
+        <h1>The Final Puzzle</h1>
+        <p>You’ve come so far... but beware, the final clue is hidden
+            where you least expect it...</p>
+        <p>To unlock the secret, start by <span class="click-to-reveal" onclick="revealClue()">clicking here</span>.
+            Then, keep your eyes on the hidden message.</p>
+
+        <p>The last piece of the puzzle lies here somewhere...<br>Inspect properly 🔎: <br></p>
+        <p><span class="hidden-code">👀#️⃣</span></p>
+
+        <!-- Rearrange the binary. It spells "entry". -->
+    </div>
+
+    <footer>
+        Think you’ve cracked the case? <a href="#" onclick="finishHunt()">Click here to finish the hunt</a>.
+    </footer>
+
+    <script>
+        function revealClue() {
+            var clue = document.querySelector('.click-to-reveal');
+            clue.classList.toggle('active');
+            clue.textContent = clue.classList.contains('active') ? 'The hidden code is near...' : 'clicking here';
+        }
+
+        function finishHunt() {
+            var userAnswer = prompt("Enter the final answer to reveal the message:");
+            
+            if (userAnswer && userAnswer.match(/^c#$/i)) {
+                alert("You’ve solved the puzzle!! Click on ok... Surprise awaits you...");
+                window.location.href = "congratulations.html";
+            } else {
+                alert("Incorrect answer. Try again.");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ransom-note</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #232323;
+        }
+
+        .container {
+            background-color: #232323;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+           
+            color: #a08051;
+            display: none;
+        }
+
+        /* .ransom-note {
+            background-color: #232323;
+            border-radius: 10px;
+            padding: 50px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            color: #a08051;
+            
+        } */
+
+        h1 {
+            text-decoration: underline;
+            color: #fffbf4;
+        }
+
+        h2 {
+
+            color: #e7a026;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .riddle {
+            font-weight: bold;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #a08051;
+        }
+
+        .riddle1 {
+            font-weight: bold;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #e4be85;
+        }
+
+        input {
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            width: 80%;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            background-color: #f4e6d2;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #987238;
+            color: rgb(255, 252, 240);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c79770;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .success {
+            color: green;
+            font-size: 1.4em;
+        }
+
+        .error {
+            color: red;
+            font-size: 1.4em;
+        }
+
+        .ransom-note:hover {
+            cursor: pointer;
+        }
+
+        .container {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ransom-note">
+        <h1>RANSOM NOTE</h1>
+        <p class="riddle1">You thought your security was tight? Think again.<br>
+            <br> </p>
+    </div>
+    <div class="container">
+        <h2>Solve the Riddle</h2>
+        
+        <br>
+        <p class="riddle">"I can break without being held. I can be invisible but leave traces everywhere. You often
+            forget me, but I never forget you. What am I?"</p>
+
+        <input type="text" id="answer" placeholder="Enter your answer here">
+        <button onclick="checkAnswer()">Submit</button>
+
+        <p class="message" id="message"></p>
+    </div>
+
+    <script>
+
+        function checkAnswer() {
+            const answer = document.getElementById('answer').value.trim().toLowerCase();
+            const message = document.getElementById('message');
+
+            if (answer === "password" && "Password") {
+                message.textContent = "Correct! You’ve unlocked the next step.";
+                message.classList.add("success");
+                message.classList.remove("error");
+                setTimeout(() => {
+                    window.location.href = "vaultt.html";
+                }, 2000);
+            } else {
+                message.textContent = "Incorrect answer. Try again!";
+                message.classList.add("error");
+                message.classList.remove("success");
+            }
+        }
+        const ransomNote = document.querySelector('.ransom-note');
+        const container = document.querySelector('.container');
+
+        ransomNote.addEventListener('click', () => {
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        });
+
+        ransomNote.addEventListener('click', () => {
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.getElementById("answer").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                document.querySelector("button").click();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

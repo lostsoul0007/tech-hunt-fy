@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Locked Vault</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #33ff33;
+            text-align: left;
+            padding: 20px;
+        }
+
+        .terminal {
+            background-color: #000;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .console-text {
+            white-space: pre-wrap;
+            font-size: 16px;
+            line-height: 1.4;
+            height: 200px;
+            overflow-y: hidden;
+        }
+
+        .input-section {
+            display: none;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-right: 2px solid #33ff33;
+            }
+        }
+
+        .input-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .input-wrapper {
+            display: inline-flex;
+            align-items: self-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            width: 40% 500%;
+            border-radius: 5px;
+            background-color: #333;
+            animation: blink 2s step-end infinite;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #383634;
+            color: rgb(255, 252, 240);
+            border: whitesmoke;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2f332f;
+            color: whitesmoke;
+        }
+
+        .error {
+            color: #ff3333;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        audio {
+            display: none;
+        }
+
+        .audio-container {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .audio-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000000;
+            color: rgb(255, 252, 240);
+            align-items: center;
+            border: whitesmoke;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .audio-button:hover {
+            background-color: #000000;
+        }
+
+        .hidden-text-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000000;
+            color: #fff;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+        }
+
+        .hidden-text-button:hover {
+            background-color: #000000;
+        }
+
+        .hidden-text {
+            display: none;
+            color: whitesmoke;
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 15px;
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <br><br><br>
+
+    <div class="terminal">
+        <div id="console" class="console-text"></div>
+        <div id="inputSection" class="input-section">
+            <div class="input-wrapper">
+                <input type="password" id="vaultCode" placeholder="p a s s w o r d">
+                <button onclick="checkPassword()">Submit</button>
+            </div>
+            <p id="errorMessage" class="error"></p>
+        </div>
+    </div>
+
+    <!-- Hidden audio element for the clue -->
+    <div class="audio-container">
+        <button class="audio-button" onclick="toggleAudio()">____</button>
+        <audio id="hiddenClue">
+            <source src="morsecode.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <br>
+    <!-- Hidden text button github's readme text -->
+    <button class="hidden-text-button" onclick="revealHiddenText()">____</button>
+    <div id="hiddenText" class="hidden-text">The Encrypted Journal__<br>
+        Welcome, FY's<br>
+        The Byte Bandit has been leaving trails all over the internet. Hidden within this journal is the key to unlocking the next step in your investigation...<br>
+        
+        Only the most observant will be able to decipher the clues within these cryptic entries. Can you uncover the secret?<br>
+        
+        Journal Entry 1: A Quiet Lead..<br>
+        Sometimes, the answers are closer than you think. A simple glance at the details can take you to places you never expected.<br>
+        Next time, don't forget your password"..<br>
+        
+        Journal Entry 2: A Whispered Secret..<br>
+        In the silence, a single word holds the key to unlocking the truth. It’s always in plain sight, hiding amongst the noise.<br>
+        The keyword is <i>safecrack</i>, but only for those who look closely enough."..<br>
+        
+        Journal Entry 3: A Final Warning..<br>
+        Not all who wander are lost, but many fail to see what's right in front of them. The trail is almost over, but don’t let your guard down.<br>
+        Stay sharp, and you just might survive this. Or... will you?<br>
+        
+        Take your time. The journey is as important as the destination...<br></div>
+
+    <script>
+        const consoleText = [
+            "Initializing system...\n",
+            "Loading resources...\n",
+            "Accessing secure vault...\n",
+            "--------------------------------------\n",
+            "Enter the password to continue:\n"
+        ];
+
+        let index = 0;
+        let charIndex = 0;
+        const typingSpeed = 50;
+        const consoleElement = document.getElementById('console');
+        const inputSection = document.getElementById('inputSection');
+
+        function typeText() {
+            if (index < consoleText.length) {
+                const currentLine = consoleText[index];
+                if (charIndex < currentLine.length) {
+                    consoleElement.innerHTML += currentLine.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeText, typingSpeed);
+                } else {
+                    consoleElement.innerHTML += "<br>";
+                    charIndex = 0;
+                    index++;
+                    setTimeout(typeText, typingSpeed);
+                }
+            } else {
+                inputSection.style.display = 'block';
+            }
+        }
+
+        window.onload = function () {
+            typeText();
+        };
+
+        function checkPassword() {
+            const password = document.getElementById('vaultCode').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (password === "safecrack") {
+                window.location.href = "hiddencode.html";
+            } else {
+                errorMessage.textContent = "Incorrect password. Try again.";
+            }
+        }
+
+        document.getElementById("vaultCode").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                document.querySelector("button").click();
+            }
+        });
+
+        function toggleAudio() {
+            const audioElement = document.getElementById('hiddenClue');
+            if (audioElement.style.display === 'block') {
+                audioElement.style.display = 'none';
+            } else {
+                audioElement.style.display = 'block';
+            }
+            if (audioElement.paused) {
+                audioElement.play();
+            } else {
+                audioElement.pause();
+            }
+        }
+
+        function revealHiddenText() {
+            const hiddenText = document.getElementById('hiddenText');
+            hiddenText.style.display = 'block';
+        }
+    </script>
+
+</body>
+
+</html>
